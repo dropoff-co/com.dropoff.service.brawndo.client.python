@@ -13,7 +13,8 @@ class Client:
         self.host = host
         self.private_key = private_key
         self.public_key = public_key
-        self.client = httplib.HTTPConnection(api_url)
+        self.client = httplib.HTTPSConnection(api_url)
+        # self.client = httplib.HTTPConnection(api_url)
         # self.client.set_debuglevel(1)
         self.client.connect()
 

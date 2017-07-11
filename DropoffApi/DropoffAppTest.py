@@ -4,9 +4,9 @@ import json
 
 import ApiV1
 
-api = ApiV1.ApiV1('localhost:9094', '/v1', 'localhost:9094',
-                  '74ac377c478a9fbd05203b3125db3f6402ead2d2ce1b9fa936c04fce43d8c168',
-                  '11981f9d4c223a598fd2a550568064a259c08c367ce6d46cde2a47026b5e4bcb')
+api = ApiV1.ApiV1('sandbox-brawndo.dropoff.com', '/v1', 'sandbox-brawndo.dropoff.com',
+                  '',
+                  '')
 
 print '*** Getting API Info ***'
 info = json.loads(api.info())
@@ -20,8 +20,8 @@ print page
 print '**************************'
 
 print '*** Getting Order Page 2 ***'
-page1_last_key = page['last_key']
-if page1_last_key is not None:
+if 'last_key' in page:
+    page1_last_key = page['last_key']
     order_get_params['last_key'] = page1_last_key
 
 page = json.loads(api.order.get(order_get_params))
