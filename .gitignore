@@ -1,0 +1,24 @@
+# IntelliJ files and directories
+out
+.idea
+*.iml
+
+# Compiled class file
+META-INF
+*.pyc
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
