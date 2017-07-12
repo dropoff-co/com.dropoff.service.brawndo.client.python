@@ -1,7 +1,7 @@
 
 class Tip:
     def __init__(self, client):
-        self.client = client
+        self._client = client
 
     def create(self, tip_create_params):
         if 'order_id' not in tip_create_params:
@@ -16,7 +16,7 @@ class Tip:
 
         path = '/order/' + tip_create_params.get('order_id') + '/tip/' + str(tip_create_params.get('amount'))
 
-        return self.client.do_post(path, 'order', query)
+        return self._client.do_post(path, 'order', query)
 
     def get(self, tip_params):
         if 'order_id' not in tip_params:
@@ -27,7 +27,7 @@ class Tip:
             query['company_id'] = tip_params.get('company_id')
 
         path = '/order/' + tip_params.get('order_id') + '/tip'
-        return self.client.do_get(path, 'order', query)
+        return self._client.do_get(path, 'order', query)
 
     def delete(self, tip_delete_params):
         if 'order_id' not in tip_delete_params:
@@ -38,4 +38,4 @@ class Tip:
             query['company_id'] = tip_delete_params.get('company_id')
 
         path = '/order/' + tip_delete_params.get('order_id') + '/tip'
-        return self.client.do_delete(path, 'order', query)
+        return self._client.do_delete(path, 'order', query)
