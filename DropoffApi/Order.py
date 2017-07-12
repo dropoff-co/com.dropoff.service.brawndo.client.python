@@ -5,7 +5,7 @@ import Tip
 
 class Order:
     def __init__(self, client):
-        self.client = client
+        self._client = client
         self.tip = Tip.Tip(client)
 
     def estimate(self, estimate_params):
@@ -32,7 +32,7 @@ class Order:
         if 'company_id' in estimate_params:
             query['company_id'] = estimate_params.get('company_id')
 
-        return self.client.do_get('/estimate', 'estimate', query)
+        return self._client.do_get('/estimate', 'estimate', query)
 
     def get(self, order_get_params):
         query = {}
@@ -40,7 +40,6 @@ class Order:
             query['company_id'] = order_get_params.get('company_id')
 
         if 'last_key' in order_get_params:
-            print 'last_key present: ' + order_get_params.get('last_key')
             query['last_key'] = order_get_params.get('last_key')
 
         path = '/order'
@@ -48,7 +47,7 @@ class Order:
         if 'order_id' in order_get_params:
             path += '/' + order_get_params['order_id']
 
-        return self.client.do_get(path, 'order', query)
+        return self._client.do_get(path, 'order', query)
 
     def create(self, order_create_params):
         query = {}
@@ -57,7 +56,7 @@ class Order:
 
         payload = json.dumps(order_create_params)
 
-        return self.client.do_post('/order', 'order', query, payload)
+        return self._client.do_post('/order', 'order', query, payload)
 
     def cancel(self, order_cancel_params):
         if 'order_id' not in order_cancel_params:
@@ -68,11 +67,11 @@ class Order:
             query['company_id'] = order_cancel_params.get('company_id')
 
         path = '/order/' + order_cancel_params.get('order_id') + '/cancel'
-        return self.client.do_post(path, 'order', query)
+        return self._client.do_post(path, 'order', query)
 
     def simulate(self, market):
         if len(market) <= 0:
             raise ValueError('Order.simulate: market must be defined')
 
         path = '/order/simulate/' + market
-        return self.client.do_get(path, 'order')
+        return self._client.do_get(path, 'order')
