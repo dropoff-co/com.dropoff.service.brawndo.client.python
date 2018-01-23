@@ -49,6 +49,18 @@ class Order:
 
         return self._client.do_get(path, 'order', query)
 
+    def signature(self, order_get_params):
+        query = {}
+        if 'company_id' in order_get_params:
+            query['company_id'] = order_get_params.get('company_id')
+
+        path = '/order/signature'
+
+        if 'order_id' in order_get_params:
+            path += '/' + order_get_params.get('order_id')
+
+        return self._client.do_get(path, 'order', query)
+
     def create(self, order_create_params):
         query = {}
         if 'company_id' in order_create_params:
@@ -68,6 +80,14 @@ class Order:
 
         path = '/order/' + order_cancel_params.get('order_id') + '/cancel'
         return self._client.do_post(path, 'order', query)
+
+    def available_properties(self, available_properties_params):
+        query = {}
+        if 'company_id' in available_properties_params:
+            query['company_id'] = available_properties_params.get('company_id')
+
+        path = '/order/properties'
+        return self._client.do_get(path, 'order', query)
 
     def simulate(self, market):
         if len(market) <= 0:

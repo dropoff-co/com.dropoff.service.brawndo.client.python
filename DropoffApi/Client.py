@@ -14,9 +14,10 @@ class Client:
         self._private_key = private_key
         self._public_key = public_key
         self._client = httplib.HTTPSConnection(api_url)
-        # self._client = httplib.HTTPConnection(api_url)
-        # self._client.set_debuglevel(1)
-        # self._client.connect()
+        # localhost testing needs these last 3 lines
+        self._client = httplib.HTTPConnection(api_url)
+        self._client.set_debuglevel(1)
+        self._client.connect()
 
     @staticmethod
     def get_dropoff_date():
@@ -38,9 +39,10 @@ class Client:
         if query is not None:
             queries = []
             for key, value in query.iteritems():
-                queries.append(key + '=' + urllib.quote(value))
+                queries.append(key + '=' + urllib.quote_plus(value))
 
             if len(queries) > 0:
+                print queries
                 uri += '?' + '&'.join(queries)
 
         api_headers = {'x-dropoff-date': today,
