@@ -4,13 +4,32 @@ import json
 
 import ApiV1
 
-api = ApiV1.ApiV1('sandbox-brawndo.dropoff.com', '/v1', 'sandbox-brawndo.dropoff.com',
-                  '',
-                  '')
+# api = ApiV1.ApiV1('sandbox-brawndo.dropoff.com', '/v1', 'sandbox-brawndo.dropoff.com',
+#                   '',
+#                   '')
+
+api = ApiV1.ApiV1('localhost:9094', '/v1', 'http://localhost:9094',
+                  '74ac377c478a9fbd05203b3125db3f6402ead2d2ce1b9fa936c04fce43d8c168',
+                  '11981f9d4c223a598fd2a550568064a259c08c367ce6d46cde2a47026b5e4bcb')
 
 print '*** Getting API Info ***'
 info = json.loads(api.info())
 print info
+print '************************'
+
+print '*** Getting Company Properties Available ***'
+#company_id = info['data']['client']['id']
+#print company_id
+#available_properties_params = {'company_id': company_id}
+available_properties_params = {}
+properties = json.loads(api.order.available_properties(available_properties_params))
+print properties
+print '************************'
+
+print '*** Getting Order Signature ***'
+order_get_params = {'order_id': '01de44f7a46be2d6cda526dda87742a0'}
+signature = json.loads(api.order.signature(order_get_params))
+print signature
 print '************************'
 
 print '*** Getting Order Page ***'
@@ -112,6 +131,16 @@ order_create = json.loads(api.order.create(create_params))
 print order_create
 print '**********************'
 
+print '*** Creating Order With Properties ***'
+order_props = [2, 4]
+create_params_with_properties = {'origin': origin_params,
+                 'destination': destination_params,
+                 'details': details_params,
+                 'properties': order_props}
+order_create_with_properties = json.loads(api.order.create(create_params_with_properties))
+print order_create_with_properties
+print '**********************'
+
 print '*** Creating Tip ***'
 created_order_id = order_create['data']['order_id']
 
@@ -132,8 +161,14 @@ tip = json.loads(api.order.tip.delete(tip_params))
 print tip
 print '********************'
 
-print '*** Cancelling Order ***'
+print '*** Cancelling Test Order(s) ***'
 order_cancel_params = {'order_id': created_order_id}
 cancel = json.loads(api.order.cancel(order_cancel_params))
 print cancel
+print '************************'
+
+created_order_with_properties_id = order_create_with_properties['data']['order_id']
+order_cancel_params = {'order_id': created_order_with_properties_id}
+cancel_order_with_properties = json.loads(api.order.cancel(order_cancel_params))
+print cancel_order_with_properties
 print '************************'
