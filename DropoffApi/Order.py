@@ -89,9 +89,15 @@ class Order:
         path = '/order/properties'
         return self._client.do_get(path, 'order', query)
 
-    def simulate(self, market):
-        if len(market) <= 0:
-            raise ValueError('Order.simulate: market must be defined')
+    def simulate(self, simulate_params):
+        query = {}
 
-        path = '/order/simulate/' + market
-        return self._client.do_get(path, 'order')
+        if 'company_id' in simulate_params:
+            query['company_id'] = simulate_params.get('company_id')
+
+        if 'market' in simulate_params:
+            path = '/order/simulate/' + simulate_params.get('market')
+        elif 'order_id' in simulate_params:
+            path = '/order/simulate/order/' + simulate_params.get('order_id')
+
+        return self._client.do_get(path, 'order', query)
