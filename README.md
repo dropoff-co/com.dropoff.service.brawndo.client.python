@@ -16,6 +16,7 @@ This is the 3rd party dropoff Python client for creating and viewing orders.
     - [Getting Your Account Info](#client_info)
     - [Enterprise Managed Clients](#managed_clients)
     - [Order Properties](#order_properties)
+    - [Order Items](#order_items)
     - [Getting Pricing Estimates](#estimates)
     - [Placing an Order](#placing)
     - [Cancelling an Order](#cancel)
@@ -196,7 +197,7 @@ The following api documentation will show how to do this.
 
 Depending on your client, you may have the option to add properties to your order.  In order to determine whether or not your client has properties, you can call the **availableProperties** method.  It will return all the properties that can be applied to your orders during creation.
 
-	#company_id is optional
+    #company_id is optional
 	company_id = info['data']['client']['id']
 	available_properties_params = {'company_id': company_id} 
 	properties = json.loads(api.order.available_properties(available_properties_params))
@@ -249,6 +250,40 @@ An example of a successful response will look like this:
 - **price_adjustment** - a number that describes any additional charges that the property will require.
 - **conflicts** - an array of other property ids that cannot be included in an order when this property is set.  In the above response you cannot set both "Leave at Door" and "Signature Required".
 - **requires** - an array of other property ids that must be included in an order when this property is set.  In the above response, when "Legal Filing" is set on an order, then "Signature Required" should be set as well.
+
+### Getting Available Order Items <a id="order_items"></a>
+An order can be created with order line items such as quantity, or temperature. To use a line item, the line item must be enabled for your account. To see which order line items are available for your account, use the **Available Items** function. 
+
+	#company_id is optional
+	company_available_items = json.loads(api.order.available_items({'company_id': info['data']['client']['id']}))
+	print company_available_items
+
+An example of a successful response will look like this:
+
+    {
+      "data": {
+        "order_item_allow_sku": 2,
+        "company_id": "7df2b0bdb418157609c0d5766fb7fb12",
+        "order_item_allow_weight": 2,
+        "order_item_enabled": 2,
+        "order_item_allow_person_name": 2,
+        "order_item_allow_quantity": 2,
+        "order_item_allow_description": 2,
+        "order_item_person_name_label": "Recipient",
+        "order_item_allow_dimensions": 2,
+        "order_item_allow_container": 2,
+        "order_item_temp_unit": "F",
+        "order_item_allow_price": 2,
+        "order_item_allow_temperature": 1
+      },
+      "success": true,
+      "timestamp": "2018-12-20T16:38:23Z"
+    }
+
+* **0** - the order item type is disabled
+* **1** - the order item type is optional
+* **2** - the order item type is enabled
+
 
 ### Getting Pricing Estimates <a id="estimates"></a>
 
@@ -401,6 +436,42 @@ The properties section is an array of [property ids](#order_properties) to add t
 
     order_props = [2, 3]
 	create_params['properties'] = order_props
+
+This is an optional piece of data.
+
+#### Order items data.
+
+The order items section is an array of [items](#order_items) to add to the order. 
+
+	order_items = [
+		{"sku": "123456123456",
+		 "container": "Box",
+		 "weight": 5,
+		 "person_name": "milller jack",
+		 "quantity": 2,
+		 "description": "this order is very important",
+		 "unit": "ft",
+		 "height": 4,
+		 "width": 4,
+		 "depth": 5,
+		 "price": "10.55",
+		 "temperature": "NA"},
+		
+		{"sku": "1234561523456",
+		 "container": "Box",
+		 "weight": 5,
+		 "person_name": "milller jack2",
+		 "quantity": 2,
+		 "description": "this order is very important",
+		 "unit": "ft",
+		 "height": 4,
+		 "width": 4,
+		 "depth": 5,
+		 "price": "10.55",
+		 "temperature": "NA"},
+		
+		]
+		create_params['items'] = order_items
 
 This is an optional piece of data.
 
