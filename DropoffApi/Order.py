@@ -8,6 +8,15 @@ class Order:
         self._client = client
         self.tip = Tip.Tip(client)
 
+    def available_items(self, items_params):
+        query = {}
+
+        if 'company_id' in items_params:
+            query['company_id'] = items_params.get('company_id')
+
+        path = '/order/items'
+        return self._client.do_get(path, 'order', query)
+
     def estimate(self, estimate_params):
         query = {}
 

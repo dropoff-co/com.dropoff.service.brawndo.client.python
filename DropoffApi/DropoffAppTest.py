@@ -1,6 +1,6 @@
 import datetime
-import time
 import json
+import time
 
 import ApiV1
 
@@ -9,8 +9,8 @@ import ApiV1
 #                   '')
 
 api = ApiV1.ApiV1('localhost:9094', '/v1', 'http://localhost:9094',
-                  '74ac377c478a9fbd05203b3125db3f6402ead2d2ce1b9fa936c04fce43d8c168',
-                  '11981f9d4c223a598fd2a550568064a259c08c367ce6d46cde2a47026b5e4bcb')
+                  '78ca06d0601c23751a642eed60acf69c65206ab825bbd10f81dde5fb370fac28',
+                  '771f764454130af2c086e243e316feffe06d7f0aace18ad4ab16e47608efb625')
 
 print '*** Getting API Info ***'
 info = json.loads(api.info())
@@ -24,6 +24,14 @@ print '*** Getting Company Properties Available ***'
 available_properties_params = {}
 properties = json.loads(api.order.available_properties(available_properties_params))
 print properties
+print '************************'
+
+print '*** Getting Company Available Items ***'
+company_available_items = json.loads(api.order.available_items({'company_id': info['data']['client']['id']}))
+print company_available_items
+print api.order.available_items({})
+company_available_items = json.loads(api.order.available_items({}))
+print company_available_items
 print '************************'
 
 print '*** Getting Order Signature ***'
@@ -84,7 +92,35 @@ estimate = json.loads(api.order.estimate(estimate_params))
 print estimate
 print '*******************************'
 
-print '*** Creating Order ***'
+print '*** Creating Order with Items***'
+order_items = [
+    {"sku": "123456123456",
+     "container": "Box",
+     "weight": 5,
+     "person_name": "milller jack",
+     "quantity": 2,
+     "description": "this order is very important, ok, they're just cupcakes",
+     "unit": "ft",
+     "height": 4,
+     "width": 4,
+     "depth": 5,
+     "price": "10.55",
+     "temperature": "NA"},
+
+    {"sku": "1234561523456",
+     "container": "Box",
+     "weight": 5,
+     "person_name": "milller jack2",
+     "quantity": 2,
+     "description": "this order is very important, ok, they're just cupcakes",
+     "unit": "ft",
+     "height": 4,
+     "width": 4,
+     "depth": 5,
+     "price": "10.55",
+     "temperature": "NA"},
+
+]
 origin_params = {'company_name': "Gus's Fried Chicken",
                  'first_name': 'Napoleon',
                  'last_name': 'Bonner',
@@ -125,10 +161,18 @@ details_params = {'ready_date': tomorrow.strftime('%s'),
 
 create_params = {'origin': origin_params,
                  'destination': destination_params,
-                 'details': details_params}
+                 'details': details_params,
+                 'items': order_items}
 
-order_create = json.loads(api.order.create(create_params))
-print order_create
+order_create_with_items = json.loads(api.order.create(create_params))
+print order_create_with_items
+print '**********************'
+
+print '*** Getting an order with items ***'
+created_order_with_items_id = order_create_with_items['data']['order_id']
+orderGetParams = {"order_id": created_order_with_items_id}
+orderGetReturn = api.order.get(orderGetParams)
+print orderGetReturn
 print '**********************'
 
 print '*** Creating Order With Properties ***'
@@ -142,9 +186,8 @@ print order_create_with_properties
 print '**********************'
 
 print '*** Creating Tip ***'
-created_order_id = order_create['data']['order_id']
 
-tip_params = {'order_id': created_order_id,
+tip_params = {'order_id': created_order_with_items_id,
               'amount': 4.44}
 
 tip = json.loads(api.order.tip.create(tip_params))
@@ -162,7 +205,7 @@ print tip
 print '********************'
 
 print '*** Cancelling Test Order(s) ***'
-order_cancel_params = {'order_id': created_order_id}
+order_cancel_params = {'order_id': created_order_with_items_id}
 cancel = json.loads(api.order.cancel(order_cancel_params))
 print cancel
 print '************************'
@@ -172,3 +215,4 @@ order_cancel_params = {'order_id': created_order_with_properties_id}
 cancel_order_with_properties = json.loads(api.order.cancel(order_cancel_params))
 print cancel_order_with_properties
 print '************************'
+
