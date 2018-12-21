@@ -252,7 +252,7 @@ An example of a successful response will look like this:
 - **requires** - an array of other property ids that must be included in an order when this property is set.  In the above response, when "Legal Filing" is set on an order, then "Signature Required" should be set as well.
 
 ### Getting Available Order Items <a id="order_items"></a>
-An order can be created with order line items such as quantity, or temperature. To use a line item, the line item must be enabled for your account. To see which order line items are available for your account, use the **Available Items** function. 
+An order can be created with order line items such as quantity, or temperature. To use a line item, the line item must be enabled for your account. To see which order line items are available for your account, use the **Available Items** function. Order line item constants are in Order.py.
 
 	#company_id is optional
 	company_available_items = json.loads(api.order.available_items({'company_id': info['data']['client']['id']}))
@@ -445,9 +445,9 @@ The order items section is an array of [items](#order_items) to add to the order
 
 	order_items = [
 		{"sku": "123456123456",
-		 "container": "Box",
+		 "container": Order.CONTAINER_BAG,
 		 "weight": 5,
-		 "person_name": "milller jack",
+		 "person_name": "John Locke",
 		 "quantity": 2,
 		 "description": "this order is very important",
 		 "unit": "ft",
@@ -455,20 +455,20 @@ The order items section is an array of [items](#order_items) to add to the order
 		 "width": 4,
 		 "depth": 5,
 		 "price": "10.55",
-		 "temperature": "NA"},
+		 "temperature": TEMP_NA},
 		
 		{"sku": "1234561523456",
-		 "container": "Box",
+		 "container": "Order.CONTAINER_BOX",
 		 "weight": 5,
-		 "person_name": "milller jack2",
+		 "person_name": "John Locke",
 		 "quantity": 2,
-		 "description": "this order is very important",
+		 "description": "this order is more important than the last one",
 		 "unit": "ft",
 		 "height": 4,
 		 "width": 4,
 		 "depth": 5,
 		 "price": "10.55",
-		 "temperature": "NA"},
+		 "temperature": Order.TEMP_FROZEN},
 		
 	]
 	create_params['items'] = order_items
@@ -613,7 +613,7 @@ Example response
 				    "weight": 5,
 				    "description": "this order is very important",
 				    "createdate": 1545410919,
-				    "person_name": "John McJohn",
+				    "person_name": "John Locke",
 				    "order_item_id": "46b30a26358dfd799ae764c90850ccfc",
 				    "unit": "ft",
 				    "depth": 5,

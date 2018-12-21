@@ -1,6 +1,7 @@
 import datetime
 import json
 import time
+import Order
 
 import ApiV1
 
@@ -95,7 +96,7 @@ print '*******************************'
 print '*** Creating Order with Items***'
 order_items = [
     {"sku": "123456123456",
-     "container": "Box",
+     "container": Order.CONTAINER_BOX,
      "weight": 5,
      "person_name": "milller jack",
      "quantity": 2,
@@ -105,10 +106,10 @@ order_items = [
      "width": 4,
      "depth": 5,
      "price": "10.55",
-     "temperature": "NA"},
+     "temperature": Order.TEMP_FROZEN},
 
     {"sku": "1234561523456",
-     "container": "Box",
+     "container": Order.CONTAINER_BAG,
      "weight": 5,
      "person_name": "milller jack2",
      "quantity": 2,
@@ -118,7 +119,7 @@ order_items = [
      "width": 4,
      "depth": 5,
      "price": "10.55",
-     "temperature": "NA"},
+     "temperature": Order.TEMP_NA},
 
 ]
 origin_params = {'company_name': "Gus's Fried Chicken",
