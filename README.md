@@ -470,8 +470,8 @@ The order items section is an array of [items](#order_items) to add to the order
 		 "price": "10.55",
 		 "temperature": "NA"},
 		
-		]
-		create_params['items'] = order_items
+	]
+	create_params['items'] = order_items
 
 This is an optional piece of data.
 
@@ -605,7 +605,28 @@ Example response
                  lat: 30.263706,
                  market: 'austin',
                  remarks: 'Be nice to napoleon'
-             }
+             },
+             items: [
+				  {
+				    "container": 200,
+				    "quantity": 2,
+				    "weight": 5,
+				    "description": "this order is very important",
+				    "createdate": 1545410919,
+				    "person_name": "John McJohn",
+				    "order_item_id": "46b30a26358dfd799ae764c90850ccfc",
+				    "unit": "ft",
+				    "depth": 5,
+				    "updatedate": 1545410919,
+				    "price": 10.55,
+				    "temperature": 0,
+				    "width": 4,
+				    "sku": "123456123456",
+				    "order_id": "7826566d9d16095e79c019c389c667b6",
+				    "height": 4
+				  }
+				],
+
         },
         success: true,
         timestamp: '2015-03-09T18:42:15+00:00'
