@@ -22,3 +22,5 @@ META-INF
 *.zip
 *.tar.gz
 *.rar
+
+LocalTest.py
