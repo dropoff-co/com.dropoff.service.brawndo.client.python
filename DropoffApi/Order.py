@@ -95,6 +95,27 @@ class Order:
 
         return self._client.do_get(path, 'order', query)
 
+    def pickup_signature(self, order_get_params):
+        query = {}
+        if 'company_id' in order_get_params:
+            query['company_id'] = order_get_params.get('company_id')
+
+        path = '/order/pickup_signature'
+
+        if 'order_id' in order_get_params:
+            path += '/' + order_get_params.get('order_id')
+
+        return self._client.do_get(path, 'order', query)
+
+    def driver_actions_meta(self, driver_actions_meta_params):
+        query = {}
+        if 'company_id' in driver_actions_meta_params:
+            query['company_id'] = driver_actions_meta_params.get('company_id')
+
+        path = '/order/driver_actions_meta'
+
+        return self._client.do_get(path, 'order', query)
+
     def create(self, order_create_params):
         query = {}
         if 'company_id' in order_create_params:
