@@ -14,9 +14,9 @@ class Client:
         self._private_key = private_key
         self._public_key = public_key
         self._client = httplib.HTTPSConnection(api_url)
-        # localhost testing needs these last 3 lines
-        self._client = httplib.HTTPConnection(api_url)
-        self._client.set_debuglevel(1)
+        # localhost testing needs these last 2 lines
+        # self._client = httplib.HTTPConnection(api_url)
+        # self._client.set_debuglevel(1)
         self._client.connect()
 
     @staticmethod
