@@ -24,3 +24,5 @@ META-INF
 *.rar
 
 LocalTest.py
+.venv
+venv
