@@ -91,3 +91,6 @@ class Client:
 
     def do_delete(self, path, resource, query=None):
         return self.do_request('DELETE', path, resource, query)
+    
+    def do_put(self, path, resource, query=None, payload=None):
+        return self.do_request('PUT', path, resource, query, payload)
